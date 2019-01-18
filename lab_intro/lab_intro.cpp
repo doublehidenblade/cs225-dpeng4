@@ -30,7 +30,7 @@ PNG grayscale(PNG image) {
 
       // `pixel` is a pointer to the memory stored inside of the PNG `image`,
       // which means you're changing the image directly.  No need to `set`
-      // the pixel since you're directly changing the memory of the image.
+      // the pixel since you're directly changing the memory of the image..
       pixel.s = 0;
     }
   }
