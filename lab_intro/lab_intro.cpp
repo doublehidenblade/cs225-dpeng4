@@ -30,7 +30,7 @@ PNG grayscale(PNG image) {
 
       // `pixel` is a pointer to the memory stored inside of the PNG `image`,
       // which means you're changing the image directly.  No need to `set`
-      // the pixel since you're directly changing the memory of the image.
+      // the pixel since you're directly changing the memory of the image..
       pixel.s = 0;
     }
   }
@@ -94,7 +94,10 @@ PNG illinify(PNG image) {
   for (unsigned x = 0; x < image.width(); x++) {
     for (unsigned y = 0; y < image.height(); y++) {
       HSLAPixel & pixel = image.getPixel(x, y);
-      if (abs(pixel.h - 11) < abs(pixel.h - 216)){
+      if (pixel.h <= (216 - 11)/2 + 11){
+        pixel.h = 11;
+      }
+      else if (pixel.h >= (360 - 216 + 11)/2 + 216){
         pixel.h = 11;
       }
       else{
