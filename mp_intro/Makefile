@@ -1,81 +1,40 @@
-# Compiler/linker comfig and object/depfile directory:
+EXENAME = intro
+OBJS = main.o PNG.o HSLAPixel.o lodepng.o intro.o
+
 CXX = clang++
+CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
 LD = clang++
-OBJS_DIR = .objs
+LDFLAGS = -std=c++1y -stdlib=libc++ -lpthread -lm
 
-# Add standard CS 225 object files
-OBJS += cs225/HSLAPixel.o cs225/PNG.o cs225/lodepng/lodepng.o
+all : $(EXENAME)
 
-# -MMD and -MP asks clang++ to generate a .d file listing the headers used in the source code for use in the Make process.
-#   -MMD: "Write a depfile containing user headers"
-#   -MP : "Create phony target for each dependency (other than main file)"
-#   (https://clang.llvm.org/docs/ClangCommandLineReference.html)
-DEPFILE_FLAGS = -MMD -MP
+$(EXENAME) : $(OBJS)
+	$(LD) $(OBJS) $(LDFLAGS) -o $(EXENAME)
 
-# Provide lots of helpful warning/errors:
-WARNINGS = -pedantic -Wall -Werror -Wfatal-errors -Wextra -Wno-unused-parameter -Wno-unused-variable
+main.o : main.cpp intro.h cs225/PNG.h cs225/HSLAPixel.h
+	$(CXX) $(CXXFLAGS) main.cpp
 
-# Flags for compile:
-CXXFLAGS += $(CS225) -std=c++1y -stdlib=libc++ -O0 $(WARNINGS) $(DEPFILE_FLAGS) -g -c
+intro.o : intro.cpp intro.h
+	$(CXX) $(CXXFLAGS) intro.cpp
 
-# Flags for linking:
-LDFLAGS += $(CS225) -std=c++1y -stdlib=libc++
+PNG.o : cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.h cs225/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) cs225/PNG.cpp
 
-# Rule for `all` (first/default rule):
-all: $(EXE)
+HSLAPixel.o : cs225/HSLAPixel.cpp cs225/HSLAPixel.h
+	$(CXX) $(CXXFLAGS) cs225/HSLAPixel.cpp
 
-# Rule for linking the final executable:
-# - $(EXE) depends on all object files in $(OBJS)
-# - `patsubst` function adds the directory name $(OBJS_DIR) before every object file
-$(EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS))
-	$(LD) $^ $(LDFLAGS) -o $@
+lodepng.o : cs225/lodepng/lodepng.cpp cs225/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) cs225/lodepng/lodepng.cpp
 
-# Ensure .objs/ exists:
-$(OBJS_DIR):
-	@mkdir -p $(OBJS_DIR)
-	@mkdir -p $(OBJS_DIR)/cs225
-	@mkdir -p $(OBJS_DIR)/cs225/catch
-	@mkdir -p $(OBJS_DIR)/cs225/lodepng
-	@mkdir -p $(OBJS_DIR)/tests
-
-# Rules for compiling source code.
-# - Every object file is required by $(EXE)
-# - Generates the rule requiring the .cpp file of the same name
-$(OBJS_DIR)/%.o: %.cpp | $(OBJS_DIR)
-	$(CXX) $(CXXFLAGS) $< -o $@
-
-
-# Rules for compiling test suite.
-# - Grab every .cpp file in tests/, compile them to .o files
-# - Build the test program w/ catchmain.cpp from cs225
-OBJS_TEST = $(filter-out $(EXE_OBJ), $(OBJS))
-CPP_TEST = $(wildcard tests/*.cpp)
-CPP_TEST += cs225/catch/catchmain.cpp
-OBJS_TEST += $(CPP_TEST:.cpp=.o)
-
-$(TEST): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS_TEST))
-	$(LD) $^ $(LDFLAGS) -o $@
-
-# Additional dependencies for object files are included in the clang++
-# generated .d files (from $(DEPFILE_FLAGS)):
--include $(OBJS_DIR)/*.d
--include $(OBJS_DIR)/cs225/*.d
--include $(OBJS_DIR)/cs225/catch/*.d
--include $(OBJS_DIR)/cs225/lodepng/*.d
--include $(OBJS_DIR)/tests/*.d
-
-
-# Standard C++ Makefile rules:
-clean:
-	rm -rf $(EXE) $(TEST) $(OBJS_DIR) $(CLEAN_RM) *.o *.d
-
-tidy: clean
-	rm -rf doc
-
-.PHONY: all tidy clean
 
 test: tests.o PNG.o HSLAPixel.o lodepng.o intro.o
 	$(LD) tests.o PNG.o HSLAPixel.o lodepng.o intro.o $(LDFLAGS) -o test
 
+catchmain.o : cs225/catch/catchmain.cpp cs225/catch/catch.hpp
+	$(CXX) $(CXXFLAGS) cs225/catch/catchmain.cpp
+
 tests.o: tests/tests.cpp tests/catch.hpp cs225/PNG.h cs225/HSLAPixel.h
 	$(CXX) $(CXXFLAGS) tests/tests.cpp
+
+clean :
+	-rm -f *.o $(EXENAME) test
