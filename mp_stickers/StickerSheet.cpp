@@ -6,8 +6,6 @@
 #include <vector>
 #include <array>
 void StickerSheet::_copy(const StickerSheet & other){
-  //std::cout << __LINE__ << std::endl;
-  delete base_;
   base_ = new Image(*other.base_);
   stickers_ = other.stickers_;
   x_ = other.x_;
@@ -36,7 +34,7 @@ StickerSheet::~StickerSheet(){
 //Frees all space that was dynamically allocated by this StickerSheet. More...
 StickerSheet::StickerSheet(const StickerSheet &other){
 
-  base_ = NULL;
+  //base_ = NULL; //<<<it seems i dont need this to pass all tests
   _copy(other);
 }
 //The copy constructor makes this StickerSheet an independent copy of the source. More...

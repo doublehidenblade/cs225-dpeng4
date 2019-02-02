@@ -1,19 +1,22 @@
-/*
+
 #include "../cs225/catch/catch.hpp"
 #include "../Image.h"
 #include "../StickerSheet.h"
 #include "../cs225/PNG.h"
 #include "../cs225/HSLAPixel.h"
-
 using namespace cs225;
 
 TEST_CASE("A basic StickerSheet works", "[weight=5][part=2]") {
   Image alma; alma.readFromFile("tests/alma.png");
   Image i;    i.readFromFile("tests/i.png");
-
   StickerSheet sheet(alma, 5);
   sheet.addSticker(i, 20, 200);
-
+  //
+  //std::cout << "almost" << std::endl;
+  Image final = sheet.render();
+  final.writeToFile("myImage.png");
+  std::cout << "done" << std::endl;
+  //
   Image expected;
   expected.readFromFile("tests/expected.png");
 
@@ -255,5 +258,3 @@ TEST_CASE("StickerSheet's assignment operator makes an independent copy", "[weig
   REQUIRE( s1.render() == expected2 );
   REQUIRE( s2.render() == expected );
 }
-*/
-

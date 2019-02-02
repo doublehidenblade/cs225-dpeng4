@@ -61,7 +61,7 @@ TEST_CASE("Test printRooms() for individual output", "[weight=40]")
 	fileio::halt();
 
     std::string str = s.str();
-    std::vector<std::string> strings = 
+    std::vector<std::string> strings =
     {
         "MEB 153 (31/32): W F",
         "MEB 218 (30/31): L H",

@@ -19,10 +19,10 @@
  */
 int main()
 {
-    std::cout << std::endl;
 
     fileio::init();
-    Allocator theAllocator("students.txt", "rooms.txt");
+    //std::cout << __LINE__ << std::endl;
+    Allocator theAllocator("students.txt", "rooms.txt");//<<pointer being freed was not allocated
     theAllocator.allocate();
     theAllocator.printRooms();
     fileio::halt();
