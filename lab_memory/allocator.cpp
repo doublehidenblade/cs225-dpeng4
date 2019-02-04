@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <utility>
-
+#include <string>
 #include "allocator.h"
 #include "fileio.h"
 
@@ -15,7 +15,8 @@ Allocator::Allocator(const std::string& studentFile, const std::string& roomFile
 {
     createLetterGroups();
     loadStudents(studentFile);
-    loadRooms(roomFile);
+    loadRooms(roomFile);//<<<-- pointer being freed was not allocated
+    //std::cout << __LINE__ << std::endl;
 }
 
 void Allocator::createLetterGroups()
@@ -44,14 +45,14 @@ void Allocator::loadRooms(const std::string& file)
 {
     // Read in rooms
     fileio::loadRooms(file);
+    roomCount = fileio::getNumRooms();
     rooms = new Room[roomCount];
-
     totalCapacity = 0;
     int i = 0;
     while (fileio::areMoreRooms()) {
-        i++; 
-        rooms[i] = fileio::nextRoom();
+        rooms[i] = fileio::nextRoom();//<<<--pointer being freed was not allocated
         totalCapacity += rooms[i].capacity;
+        i++;
     }
 }
 
@@ -60,8 +61,9 @@ void Allocator::printStudents(std::ostream & stream /* = std::cout */)
 {
     // Output number of each last letter name
     stream << "Student counts (" << studentCount << " total)" << std::endl;
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i < 26; i++){
         stream << alpha[i].letter << ": " << alpha[i].count << std::endl;
+    }
 }
 
 void Allocator::allocate()
@@ -88,12 +90,12 @@ void Allocator::printRooms(std::ostream & stream /* = std::cout */)
 int Allocator::solve()
 {
     std::stable_sort(alpha, alpha + 26);
-
     for (int L = 0; L < 26; L++) {
         Room* r = largestOpening();
         r->addLetter(alpha[L]);
+        std::cout << (r->letters[0]).letter << std::endl;
     }
-
+    std::cout << "solved";
     return minSpaceRemaining();
 }
 
@@ -106,7 +108,7 @@ int Allocator::minSpaceRemaining()
     return border;
 }
 
-Room* Allocator::largestOpening()
+Room* Allocator::largestOpening()//return room with max spaceRemaining
 {
     int index = 0;
     int max_remaining = 0;
