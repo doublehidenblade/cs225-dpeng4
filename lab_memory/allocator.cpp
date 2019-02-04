@@ -19,6 +19,15 @@ Allocator::Allocator(const std::string& studentFile, const std::string& roomFile
     //std::cout << __LINE__ << std::endl;
 }
 
+Allocator::~Allocator(){
+  if (alpha!=NULL){
+    delete alpha;
+  }
+  if (rooms!=NULL){
+    delete [] rooms;
+  }
+}
+
 void Allocator::createLetterGroups()
 {
     // Make letters (A - Z lettergroups)

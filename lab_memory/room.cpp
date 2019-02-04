@@ -9,7 +9,7 @@
 Room::Room()
     : capacity(0), count(0), max_letters(26), letters(NULL), letterCount(0)
 {
-  letters = new Letter[26];//<<--fixed, cannot init array pointer to NULL
+  letters = new Letter[max_letters];//<<--fixed, cannot init array pointer to NULL
 }
 
 Room::Room(const std::string& init_name, int init_capacity)
@@ -26,7 +26,6 @@ Room::Room(const Room& other)
 {
     copy(other);
 }
-
 Room& Room::operator=(const Room& other)
 {
     if (this != &other) {
@@ -38,7 +37,8 @@ Room& Room::operator=(const Room& other)
 
 Room::~Room()
 {
-    clear();
+    delete letters;
+    //clear();
 }
 
 void Room::addLetter(const Letter& L)
