@@ -15,7 +15,8 @@ int main() {
   christ.lighten(0.2);
   Image cross;
   cross.readFromFile("cross.png");
-  cross.scale(0.5);
+  //cross.scale(0.5);
+  cross.scale(300,200);
   cross.darken(0.4);
 
   StickerSheet sheet(alma, 10);

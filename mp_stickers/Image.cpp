@@ -168,11 +168,13 @@ void Image::scale (unsigned w, unsigned h){
       original->getPixel(x,y) = this->getPixel(x, y);
     }
   }//copy original pixels
+
   this->resize(w, h);
+  double wratio = w/(this->width());
+  double hratio = h/(this->height());
   for (unsigned x = 0; x < w; x++) {
     for (unsigned y = 0; y < h; y++) {
-      this->getPixel(x,y) = original->getPixel(int(x/(w/this->width())), int(y/(y/this->height())));
-      (this->getPixel(x,y)).h = (this->getPixel(x,y)).h + 2;
+      this->getPixel(x,y) = original->getPixel(int(x/wratio), int(y/hratio));//<<--fixed
     }
   }
 }
