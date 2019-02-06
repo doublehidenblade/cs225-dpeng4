@@ -21,7 +21,7 @@ Allocator::Allocator(const std::string& studentFile, const std::string& roomFile
 
 Allocator::~Allocator(){
   if (alpha!=NULL){
-    delete alpha;
+    delete [] alpha;
   }
   if (rooms!=NULL){
     delete [] rooms;
