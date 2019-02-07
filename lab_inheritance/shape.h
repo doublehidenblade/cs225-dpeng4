@@ -37,6 +37,7 @@ class Shape : public Drawable
 
     ~Shape()
     { /* Nothing */
+      //use valgrind to check
     }
 
     /**
@@ -44,14 +45,14 @@ class Shape : public Drawable
      *
      * @return the area (in pixels) of the Shape
      */
-    int area() const;
+    virtual int area() const;//<<added virtual;
 
     /**
      * Computes and returns the perimeter of the Shape in pixels
      *
      * @return the perimeter (in pixels) of the Shape
      */
-    int perimeter() const;
+    virtual int perimeter() const;//<<added virtual;
 
     /**
      * Checks to see if the Vector2 p is contained inside of the Shape
@@ -85,4 +86,3 @@ class Shape : public Drawable
 
     void draw(cs225::PNG* canvas) const;
 };
-
