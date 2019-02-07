@@ -157,6 +157,7 @@ void Image::scale (double factor){
       this->getPixel(x,y) = original->getPixel(x/factor, y/factor);
     }
   }
+  delete original;
 }
 
 
@@ -177,5 +178,6 @@ void Image::scale (unsigned w, unsigned h){
       this->getPixel(x,y) = original->getPixel(int(x/wratio), int(y/hratio));//<<--fixed
     }
   }
+  delete original;
 }
   //Scales the image to fit within the size (w x h).

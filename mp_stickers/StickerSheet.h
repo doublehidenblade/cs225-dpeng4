@@ -45,9 +45,9 @@
   private:
     Image *base_;
     int iMAX;
-    std::vector <int> *x_;
-    std::vector <int> *y_;
-    std::vector <Image> *stickers_;
+    std::vector <int> x_;
+    std::vector <int> y_;
+    std::vector <Image> stickers_;
     void _copy(const StickerSheet & other);
     int num_;
  };
