@@ -13,7 +13,7 @@
 class Drawable
 {
   public:
-    virtual ~Drawable()//<<--added 'virtual' for test_destructor. yet to check.
+    virtual ~Drawable()//<<--added 'virtual' for test_destructor. 
     { /* Nothing */
     }
 

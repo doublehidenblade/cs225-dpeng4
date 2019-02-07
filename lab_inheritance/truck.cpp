@@ -30,6 +30,17 @@ const HSLAPixel WHEEL_COLOR = color::BLACK;
 
 const int NUM_WHEELS = 5;
 
+void Truck::draw(PNG* canvas) const//<<--implemented pure_virtual_function, otherwise Truck is seen as abstract class
+{
+  for(int i = 0;i < NUM_WHEELS; i++){
+    wheels[i]->draw(canvas);
+  }
+    trailer->draw(canvas);
+    cabin->draw(canvas);
+    window->draw(canvas);
+    engine->draw(canvas);
+}
+
 Truck::Truck(const Vector2& pcenter)
     : center_(pcenter),
       wheels(new Circle*[NUM_WHEELS]),
@@ -138,4 +149,3 @@ void Truck::clear()
     delete window;
     delete engine;
 }
-

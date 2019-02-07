@@ -58,7 +58,7 @@ HSLAPixel Shape::color() const
     return this->color_;
 }
 
-void Shape::draw(PNG* canvas) const
+void Shape::draw(PNG* canvas) const//have to override this in flower.cpp
 {
     const Vector2 top_left(this->center().x() - 8, this->center().y() - 8);
     const Vector2 top_right(this->center().x() + 8, this->center().y() - 8);
