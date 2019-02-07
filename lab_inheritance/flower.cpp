@@ -30,11 +30,11 @@ const HSLAPixel PISTIL_COLOR = color::YELLOW;
 const int PETAL_RADIUS = 2;
 const HSLAPixel PETAL_COLOR = color::RED;
 
-Flower::~Flower(){
+Flower::~Flower(){//<<
   clear();
 }
 
-void Flower::clear(){
+void Flower::clear(){//<<
   delete stem;
   delete pistil;
   delete leaf;
