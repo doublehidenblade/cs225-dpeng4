@@ -165,24 +165,7 @@ void Image::scale (double factor){
 void Image::scale (unsigned w, unsigned h){
   double wratio = w/(this->width());
   double hratio = h/(this->height());
-  double ratio = wratio > hratio ? wratio : hratio;
+  double ratio = wratio > hratio ? hratio : wratio;
   scale(ratio);
-  /*
-  PNG *original = new PNG(this->width(), this->height());
-  for (unsigned x = 0; x < this->width(); x++) {
-    for (unsigned y = 0; y < this->height(); y++) {
-      original->getPixel(x,y) = this->getPixel(x, y);
-    }
-  }//copy original pixels
-
-  this->resize(w, h);
-  double wratio = w/(this->width());
-  double hratio = h/(this->height());
-  for (unsigned x = 0; x < w; x++) {
-    for (unsigned y = 0; y < h; y++) {
-      this->getPixel(x,y) = original->getPixel(int(x/wratio), int(y/hratio));//<<--fixed
-    }
-  }
-  delete original;*/
 }
   //Scales the image to fit within the size (w x h).
