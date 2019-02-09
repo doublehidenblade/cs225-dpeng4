@@ -163,9 +163,10 @@ void Image::scale (double factor){
 
   //Scale the Image by a given factor.
 void Image::scale (unsigned w, unsigned h){
-  double wratio = w/(this->width());
-  double hratio = h/(this->height());
+  double wratio = double(w)/double(this->width());
+  double hratio = double(h)/double(this->height());
   double ratio = wratio > hratio ? hratio : wratio;
+  std::cout<<ratio<<std::endl;
   scale(ratio);
 }
   //Scales the image to fit within the size (w x h).
