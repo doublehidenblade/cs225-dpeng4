@@ -38,11 +38,17 @@ typename List<T>::ListIterator List<T>::end() const {
 template <typename T>
 void List<T>::_destroy() {
   /// @todo Graded in MP3.1
-/*
-  if(head_==NULL){
-    std::cout<<"head null"<<std::endl;
+  ListNode * curr = head_;
+  ListNode * prev = head_;
+  if(curr==NULL){
+    return;
   }
-*/
+  while(prev!=NULL){
+    curr = curr->next;
+    delete prev;
+    prev = curr;
+  }
+  return;
 }
 
 /**
@@ -278,28 +284,46 @@ void List<T>::mergeWith(List<T> & otherList) {
  * @return The starting node of the resulting, sorted sequence.
  */
 template <typename T>
-typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
+typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {///
   /// @todo Graded in MP3.2
   ListNode * result = NULL;
-  /* Base cases */
-  if (first == NULL){
-    return(second);
+  ListNode * head;
+  if(first==NULL){
+    return second;
   }
-  else if (second == NULL){
-    return(first);
+  if(second==NULL){
+    return first;
   }
-  /* Pick either a or b, and recur */
-  if (((first->data)) < ((second->data)))
-  {
-     result = first;
-     result->next = merge(first->next, second);
+  if(first->data < second->data){
+    result = first;
+    head = result;
+    first = first->next;
+  }else{
+    result = second;
+    head = second;
+    second = second->next;
   }
-  else
-  {
-     result = second;
-     result->next = merge(first, second->next);
+  while(true){
+    if(first==NULL){
+      result->next = second;
+      return head;
+    }
+    if(second==NULL){
+      result->next = first;
+      return head;
+    }
+    if(first->data < second->data){
+      result->next = first;
+      result = first;
+      first = first->next;
+    }else{
+      result->next = second;
+      result = second;
+      second = second->next;
+    }
   }
-  return(result);
+  second = NULL;
+  return head;
 }
 
 /**

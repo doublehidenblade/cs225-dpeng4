@@ -100,7 +100,7 @@ TEST_CASE("List::merge", "[weight=10][part=2][valgrind]") {
           v2.push_back(im2.getPixel(i, j));
   List<HSLAPixel> l1(v1.begin(), v1.end());
   List<HSLAPixel> l2(v2.begin(), v2.end());
-//
+
   List<int> list0;
   List<int> list1;
   list0.insertBack(0);
@@ -116,7 +116,7 @@ TEST_CASE("List::merge", "[weight=10][part=2][valgrind]") {
   list1.mergeWith(list0);
   std::cout<<"merged lists"<<std::endl;
   list1.print();
-//
+
   l1.mergeWith(l2);
   vector<HSLAPixel> merged(l1.begin(), l1.end());
   unsigned x = 0;
