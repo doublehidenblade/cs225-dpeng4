@@ -17,8 +17,21 @@ using namespace cs225;
 TEST_CASE("List::reverse", "[weight=10][part=2][valgrind]") {
   PNG in;        in.readFromFile("tests/alma.png");
   PNG expected;  expected.readFromFile("tests/expected-reverse.png");
+  List<int> list0;
+  list0.insertBack(0);
+  list0.insertBack(1);
+  list0.insertBack(2);
+  list0.insertBack(3);
+  list0.insertBack(4);
+  list0.insertBack(5);
+  list0.insertBack(6);
+  list0.insertBack(7);
+  list0.insertBack(8);
+  list0.insertBack(9);
 
+  list0.reverse();
   List<HSLAPixel> list = imageToList(in);
+
   list.reverse();
   PNG out = listToImage(list, in.width(), in.height());
   out.writeToFile("actual-reverse.png");
@@ -30,7 +43,21 @@ TEST_CASE("List::reverse", "[weight=10][part=2][valgrind]") {
 TEST_CASE("List::reverseNth #1", "[weight=5][part=2][valgrind]") {
   PNG in;        in.readFromFile("tests/alma.png");
   PNG expected;  expected.readFromFile("tests/expected-reverseN_1.png");
+  //
+  List<int> list0;
+  list0.insertBack(0);
+  list0.insertBack(1);
+  list0.insertBack(2);
+  list0.insertBack(3);
+  list0.insertBack(4);
+  list0.insertBack(5);
+  list0.insertBack(6);
+  list0.insertBack(7);
+  list0.insertBack(8);
+  list0.insertBack(9);
 
+  list0.reverseNth(3);
+  //
   List<HSLAPixel> list = imageToList(in);
   list.reverseNth(in.height() * 20);
 
@@ -73,6 +100,23 @@ TEST_CASE("List::merge", "[weight=10][part=2][valgrind]") {
           v2.push_back(im2.getPixel(i, j));
   List<HSLAPixel> l1(v1.begin(), v1.end());
   List<HSLAPixel> l2(v2.begin(), v2.end());
+//
+  List<int> list0;
+  List<int> list1;
+  list0.insertBack(0);
+  list1.insertBack(1);
+  list0.insertBack(2);
+  list1.insertBack(31);
+  list0.insertBack(4);
+  list0.insertBack(5);
+  list1.insertBack(62);
+  list0.insertBack(7);
+  list0.insertBack(8);
+  list0.insertBack(99);
+  list1.mergeWith(list0);
+  std::cout<<"merged lists"<<std::endl;
+  list1.print();
+//
   l1.mergeWith(l2);
   vector<HSLAPixel> merged(l1.begin(), l1.end());
   unsigned x = 0;

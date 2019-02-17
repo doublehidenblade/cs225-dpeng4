@@ -2,12 +2,13 @@
  * @file list.cpp
  * Doubly Linked List (MP 3).
  */
-
+#include <stack>
 template <class T>
-List<T>::List() { 
+List<T>::List() {
   // @TODO: graded in MP3.1
-    ListNode* head_ = NULL;
-    ListNode* tail_ = NULL;
+    head_ = NULL;//deleted listNode *
+    tail_ = NULL;//deleted listNode *
+    length_ = 0;//
 }
 
 /**
@@ -17,7 +18,7 @@ List<T>::List() {
 template <typename T>
 typename List<T>::ListIterator List<T>::begin() const {
   // @TODO: graded in MP3.1
-  return List<T>::ListIterator(NULL);
+  return List<T>::ListIterator(head_);
 }
 
 /**
@@ -26,7 +27,7 @@ typename List<T>::ListIterator List<T>::begin() const {
 template <typename T>
 typename List<T>::ListIterator List<T>::end() const {
   // @TODO: graded in MP3.1
-  return List<T>::ListIterator(NULL);
+  return List<T>::ListIterator(tail_->next);
 }
 
 
@@ -37,6 +38,11 @@ typename List<T>::ListIterator List<T>::end() const {
 template <typename T>
 void List<T>::_destroy() {
   /// @todo Graded in MP3.1
+/*
+  if(head_==NULL){
+    std::cout<<"head null"<<std::endl;
+  }
+*/
 }
 
 /**
@@ -47,18 +53,16 @@ void List<T>::_destroy() {
  */
 template <typename T>
 void List<T>::insertFront(T const & ndata) {
-  /// @todo Graded in MP3.1
   ListNode * newNode = new ListNode(ndata);
   newNode -> next = head_;
   newNode -> prev = NULL;
-  
   if (head_ != NULL) {
     head_ -> prev = newNode;
   }
+  head_ = newNode;
   if (tail_ == NULL) {
     tail_ = newNode;
   }
-  
 
   length_++;
 
@@ -72,7 +76,18 @@ void List<T>::insertFront(T const & ndata) {
  */
 template <typename T>
 void List<T>::insertBack(const T & ndata) {
-  /// @todo Graded in MP3.1
+  ListNode * newNode = new ListNode(ndata);
+  newNode -> next = NULL;
+  newNode -> prev = tail_;
+  if (tail_ != NULL) {
+    tail_->next = newNode;
+  }
+  tail_ = newNode;
+
+  if (head_ == NULL) {
+    head_ = newNode;
+  }
+  length_++;
 }
 
 /**
@@ -95,17 +110,14 @@ template <typename T>
 typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   /// @todo Graded in MP3.1
   ListNode * curr = start;
-
-  for (int i = 0; i < splitPoint || curr != NULL; i++) {
+  for (int i = 0; i < splitPoint && curr != NULL; i++) {//
     curr = curr->next;
   }
-
   if (curr != NULL) {
       curr->prev->next = NULL;
       curr->prev = NULL;
   }
-
-  return NULL;
+  return curr;//
 }
 
 /**
@@ -120,6 +132,20 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 template <typename T>
 void List<T>::waterfall() {
   /// @todo Graded in MP3.1
+  while(head_!=tail_&&head_->next!=tail_){
+    head_ = head_->next;//skip 1
+    head_->prev->next = head_->next;//connect 1 to 3
+    head_->next->prev = head_->prev;//connect 3 to 1
+    tail_->next = head_;//connect 8 to 2
+    head_->prev = tail_;//connect 2 to 8
+    tail_ = head_;//tail become 2 as well as curr
+    head_ = head_->next;//curr become 3
+    tail_->next = NULL;//update 2's next
+  }
+  head_ = tail_;
+  while(head_->prev != NULL){
+    head_ = head_->prev;
+  }
 }
 
 /**
@@ -144,6 +170,43 @@ void List<T>::reverse() {
 template <typename T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   /// @todo Graded in MP3.2
+  ListNode * iter1 = startPoint;
+  ListNode * iter2 = endPoint;
+  ListNode * temp;
+  ListNode * before = startPoint->prev;
+  ListNode * after = endPoint->next;
+
+  if(startPoint==NULL || endPoint==NULL){
+    return;
+  }
+  iter2 = iter1->next;
+  while(true){//flip prev and end of curr, and increment iter1&2
+    iter1->next = iter1->prev;
+    iter1->prev = iter2;
+    iter1 = iter2;
+    if(iter1==after){
+      break;
+    }
+    iter2 = iter2->next;
+  }
+
+  if(before!=NULL){
+    before->next = endPoint;
+  }
+  if(after!=NULL){
+    after->prev = startPoint;
+  }
+  endPoint->prev = before;
+  startPoint->next = after;
+
+  temp = startPoint;
+  startPoint = endPoint;
+  endPoint = temp;
+
+  while(temp!=endPoint){
+    std::cout<<temp->data<<std::endl;
+    temp = temp->next;
+  }
 }
 
 /**
@@ -155,6 +218,26 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
 template <typename T>
 void List<T>::reverseNth(int n) {
   /// @todo Graded in MP3.2
+  ListNode * iter1 = head_;
+  ListNode * iter2;
+  ListNode * temp;
+  ListNode * originalHeadPrev = head_->prev;
+  temp = tail_->next;
+  while(true){
+    iter2 = iter1;
+    for(int i=0; i<n-1 && iter2!=tail_; i++){
+      iter2 = iter2->next;
+    }
+    reverse(iter1,iter2);
+    iter1 = iter2->next;
+    if(iter1==temp){
+      tail_ = iter2;
+      break;
+    }
+  }
+  while(head_->prev!=originalHeadPrev){//move head to new front
+    head_ = head_->prev;
+  }
 }
 
 
@@ -167,6 +250,7 @@ template <typename T>
 void List<T>::mergeWith(List<T> & otherList) {
     // set up the current list
     head_ = merge(head_, otherList.head_);
+    std::cout<<"done merge"<<std::endl;
     tail_ = head_;
 
     // make sure there is a node in the new list
@@ -196,7 +280,26 @@ void List<T>::mergeWith(List<T> & otherList) {
 template <typename T>
 typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
   /// @todo Graded in MP3.2
-  return NULL;
+  ListNode * result = NULL;
+  /* Base cases */
+  if (first == NULL){
+    return(second);
+  }
+  else if (second == NULL){
+    return(first);
+  }
+  /* Pick either a or b, and recur */
+  if (((first->data)) < ((second->data)))
+  {
+     result = first;
+     result->next = merge(first->next, second);
+  }
+  else
+  {
+     result = second;
+     result->next = merge(first, second->next);
+  }
+  return(result);
 }
 
 /**
@@ -213,5 +316,18 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
 template <typename T>
 typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength) {
   /// @todo Graded in MP3.2
+
+  /*
+  if (!head || !head->next)
+        return head;
+    struct Node *second = split(head);
+
+    // Recur for left and right halves
+    head = mergeSort(head);
+    second = mergeSort(second);
+
+    // Merge the two sorted halves
+    return merge(head,second);
+*/
   return NULL;
 }

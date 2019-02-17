@@ -56,6 +56,7 @@ TEST_CASE("List::waterfall", "[weight=20][part=1][valgrind]") {
     PNG expected;  expected.readFromFile("tests/expected-waterfall.png");
 
     List<HSLAPixel> list = imageToList(in);
+
     list.waterfall();
     PNG out = listToImage(list, in.width(), in.height());
     out.writeToFile("actual-waterfall.png");
@@ -72,19 +73,17 @@ TEST_CASE("List::split simple", "[weight=5][part=1][valgrind]") {
     list.insertBack(2);
     list.insertBack(3);
     list.insertBack(4);
-
     List<int> slist = list.split(2);
     stringstream s1, s2;
 
     list.print(s1);
     slist.print(s2);
-
     REQUIRE( "< 1 2 >" == s1.str() );
     REQUIRE( "< 3 4 >" == s2.str() );
 }
 
 TEST_CASE("List::split images", "[weight=10][part=1]") {
-
+std::cout<<"begin split images"<<std::endl;
     PNG in;         in.readFromFile("tests/split.png");
     PNG expected_1; expected_1.readFromFile("tests/expected-split_1.png");
     PNG expected_2; expected_2.readFromFile("tests/expected-split_2.png");
@@ -96,11 +95,9 @@ TEST_CASE("List::split images", "[weight=10][part=1]") {
             list1.insertBack(in.getPixel(i, j));
     List<HSLAPixel> list2 = list1.split(400 * 240);
     List<HSLAPixel> list3 = list2.split(400 * 240);
-
     vector<HSLAPixel> im1vect(list1.begin(), list1.end());
     vector<HSLAPixel> im2vect(list2.begin(), list2.end());
     vector<HSLAPixel> im3vect(list3.begin(), list3.end());
-
     PNG out1(400, 240);
     unsigned x = 0;
     for (unsigned i = 0; i < im1vect.size(); i++) {
@@ -237,5 +234,3 @@ TEST_CASE("List::ListIterator::end is not ::begin in a non-empty list", "[weight
 
     REQUIRE( (bool)(list.begin() != list.end()) );
 }
-
-
