@@ -340,18 +340,16 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
 template <typename T>
 typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength) {
   /// @todo Graded in MP3.2
-
-  /*
-  if (!head || !head->next)
-        return head;
-    struct Node *second = split(head);
-
+//  std::cout<<start->data<<std::endl;
+  if (chainLength<=1){
+      return start;
+  }
+    ListNode * otherHead = split(start, chainLength/2);
     // Recur for left and right halves
-    head = mergeSort(head);
-    second = mergeSort(second);
+    start = mergesort(start, chainLength/2);
+    otherHead = mergesort(otherHead, chainLength-chainLength/2);
 
     // Merge the two sorted halves
-    return merge(head,second);
-*/
-  return NULL;
+    return merge(start,otherHead);
+
 }
