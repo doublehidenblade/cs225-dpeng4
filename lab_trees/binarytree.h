@@ -94,7 +94,7 @@ class BinaryTree
         /**
          * @return The root of the binary tree
          */
-        Node* getRoot() const;  
+        Node* getRoot() const;
 
         /**
          * This lab deals with the following six helper functions:
@@ -146,7 +146,7 @@ class BinaryTree
          * added before paths ending in a node further to the right.
          * @param paths vector of vectors that contains path of nodes
          */
-        void getPaths(std::vector<std::vector<T>>& paths) const;
+        void getPaths(std::vector<std::vector<T> >& paths) const;
 
         /**
          * Each node in a tree has a distance from the root node - the depth of that
@@ -192,9 +192,13 @@ class BinaryTree
          */
         void printLeftToRight(const Node* subRoot) const;
 
+        void mirror(Node* subRoot);//
 
+        bool isOrderedRecursive(Node* subRoot, int low, int high) const;//
 
+        bool getPath(Node* subRoot, std::vector<std::vector<T> >& paths, std::vector<T> p) const;//
 
+        int sumDistances(Node * subRoot, int accum) const;
         /**
          * Private helper function for the sorted public insert function.
          * @param node The current node in the recursion

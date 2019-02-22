@@ -1,4 +1,6 @@
 #include "abstractsyntaxtree.h"
+#include <iostream>
+#include <string>
 
 /**
  * Calculates the value from an AST (Abstract Syntax Tree). To parse numbers from strings, please use std::stod
@@ -6,6 +8,24 @@
  */
 double AbstractSyntaxTree::eval() const {
     // @TODO Your code goes here...
-    return -1;
+    return eval(root);
 }
 
+double AbstractSyntaxTree::eval(Node* subRoot) const {
+  if(subRoot==NULL){
+    return 0;
+  }
+  if(subRoot->elem=="+"){
+    return eval(subRoot->left) + eval(subRoot->right);
+  }
+  if(subRoot->elem=="-"){
+    return eval(subRoot->left) - eval(subRoot->right);
+  }
+  if(subRoot->elem=="*"){
+    return eval(subRoot->left) * eval(subRoot->right);
+  }
+  if(subRoot->elem=="/"){
+    return eval(subRoot->left) / eval(subRoot->right);
+  }
+  return std::stod(subRoot->elem);
+}
