@@ -49,8 +49,10 @@ void decoder::decodeFile(const string& inputName, const string& treeName,
     }
     BinaryFileReader input(inputName);
     BinaryFileReader treeIn(treeName);
+    std::cout<<"decoder"<<__LINE__<<std::endl;
+    std::cout<<treeName<<std::endl;
     HuffmanTree tree(treeIn);
-
+    std::cout<<"decoder"<<__LINE__<<std::endl;
     ofstream output(outputName);
     output << tree.decodeFile(input);
 }

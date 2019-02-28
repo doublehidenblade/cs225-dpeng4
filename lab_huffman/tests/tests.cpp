@@ -54,6 +54,10 @@ void compareBinaryFiles(string yourFile, string ourFile) {
   ifstream ourBinary(ourFile, ios::binary);
   stringstream ours;
   ours << ourBinary.rdbuf();
+
+  std::cout<<"yours: "<<yours.str();//
+  std::cout<<"ours: "<<ours.str();//
+
   if (yours.str() != ours.str()) {
     FAIL( "Your binary file \"" + yourFile + "\" does not match our binary file \"" + ourFile + "\"");
   }
@@ -137,7 +141,9 @@ TEST_CASE("test_decode2", "[weight=1]") {
 
 TEST_CASE("test_decode_readtree", "[weight=1]") {
   buildText();
+  //std::cout<<__LINE__<<std::endl;
   decoder::decodeFile("tests/soln_test.bin", "tests/soln_tree.huff", "tests/out.txt");
+  //std::cout<<__LINE__<<std::endl;
   stringstream expected;
   stringstream decoded;
   ifstream expect("tests/text.txt");

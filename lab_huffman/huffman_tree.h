@@ -4,7 +4,6 @@
  */
 
 #pragma once
-
 #include <cstddef>
 #include <vector>
 #include <queue>
@@ -272,10 +271,10 @@ class HuffmanTree
     /**
      * Root of the HuffmanTree.
      */
-    TreeNode* root_;                            
+    TreeNode* root_;
 
     /**
      * Standard map that maps characters to their encoded values.
      */
-    std::map<char, std::vector<bool>> bitsMap_; 
+    std::map<char, std::vector<bool>> bitsMap_;
 };

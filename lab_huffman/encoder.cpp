@@ -49,7 +49,12 @@ void encoder::encodeFile(const string& inputName, const string& outputName,
     stringstream ss;
     ss << input.rdbuf();
 
+    std::cout<<"tree building"<<std::endl;//
+
     HuffmanTree tree(getFrequencies(ss.str()));
+
+    std::cout<<"tree built"<<std::endl;//
+
     BinaryFileWriter output(outputName);
     BinaryFileWriter treeFile(treeName);
 
