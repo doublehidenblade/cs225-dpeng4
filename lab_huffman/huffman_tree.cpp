@@ -260,12 +260,14 @@ HuffmanTree::TreeNode* HuffmanTree::readTree(BinaryFileReader& bfile)
     std::cout<<"read leaf"<<std::endl;
     Frequency *f = new Frequency(bfile.getNextByte(), 0);
     TreeNode *cur = new TreeNode(*f);
+    delete f;
     return cur;
   }
   else{////read 0, internal
     std::cout<<"read internal"<<std::endl;
     Frequency *f = new Frequency(0);
     TreeNode *cur = new TreeNode(*f);
+    delete f;
     cur->left = readTree(bfile);
     cur->right = readTree(bfile);
     return cur;
