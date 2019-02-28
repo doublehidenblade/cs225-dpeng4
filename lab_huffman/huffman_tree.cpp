@@ -125,7 +125,7 @@ HuffmanTree::removeSmallest(queue<TreeNode*>& singleQueue,
 
 void HuffmanTree::buildTree(const vector<Frequency>& frequencies)
 {
-  std::cout<<"buildTree begin"<<std::endl;
+  // std::cout<<"buildTree begin"<<std::endl;
     queue<TreeNode*> singleQueue; // Queue containing the leaf nodes
     queue<TreeNode*> mergeQueue;  // Queue containing the inner nodes
     for(unsigned long i=0;i<frequencies.size();i++){
@@ -137,16 +137,13 @@ void HuffmanTree::buildTree(const vector<Frequency>& frequencies)
       TreeNode *L = removeSmallest(singleQueue,mergeQueue);
       TreeNode *R = removeSmallest(singleQueue,mergeQueue);
       int leftfreq=0, rightfreq=0;
-      char leftchar='\0', rightchar='\0';
       if(L!=NULL){
         leftfreq = L->freq.getFrequency();
-        leftchar = L->freq.getCharacter();
       }
       if(R!=NULL){
         rightfreq = R->freq.getFrequency();
-        rightchar = R->freq.getCharacter();
       }
-      Frequency *f = new Frequency(leftchar+rightchar,leftfreq + rightfreq);
+      Frequency *f = new Frequency(leftfreq + rightfreq);
       TreeNode *internal = new TreeNode(*f);
       delete f;
       internal->left = L;
