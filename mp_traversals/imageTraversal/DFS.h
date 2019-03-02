@@ -8,6 +8,7 @@
 #include <cmath>
 #include <list>
 #include <stack>
+#include <vector>
 
 #include "../cs225/PNG.h"
 #include "../Point.h"
@@ -23,7 +24,7 @@ using namespace cs225;
 class DFS : public ImageTraversal {
 public:
   DFS(const PNG & png, const Point & start, double tolerance);
-  
+
   ImageTraversal::Iterator begin();
   ImageTraversal::Iterator end();
 
@@ -32,7 +33,14 @@ public:
   Point peek() const;
   bool empty() const;
 
+
 private:
+  PNG image;
+  double tol;
+  Point st;
+  std::stack<Point> s;
+
 	/** @todo [Part 1] */
 	/** add private members here*/
+
 };

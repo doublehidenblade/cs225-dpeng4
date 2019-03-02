@@ -8,6 +8,7 @@
 #include <cmath>
 #include <list>
 #include <queue>
+#include <vector>
 
 #include "../cs225/PNG.h"
 #include "../Point.h"
@@ -26,13 +27,17 @@ public:
 
   ImageTraversal::Iterator begin();
   ImageTraversal::Iterator end();
-  
+
   void add(const Point & point);
   Point pop();
   Point peek() const;
   bool empty() const;
 
 private:
+  std::queue<Point> p;
+  PNG image;
+  double tol;
+  Point st;
   /** @todo [Part 1] */
   /** add private members here*/
 };
