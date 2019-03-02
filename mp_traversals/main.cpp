@@ -41,7 +41,7 @@ int main() {
   animation = image.animate(1000);
   PNG lastFrame = animation.getFrame( animation.frameCount() - 1 );
   lastFrame.writeToFile("myFloodFill.png");
-  animation.write("yFloodFil.gif");
+  animation.write("myFloodFill.gif");
 
 
   return 0;

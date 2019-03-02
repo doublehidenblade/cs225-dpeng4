@@ -18,16 +18,14 @@ MyColorPicker::MyColorPicker(unsigned w,unsigned h): w(w),h(h){
 HSLAPixel MyColorPicker::getColor(unsigned x, unsigned y) {
   /* @todo [Part 3] */
   double l;
+  h = h+1-1;
   a = a - 0.000017;
-  if(x>w/2 && y>h/2){
-    l=0.7;
+  if(x>w/2){
+    l=0.7+y/1000;
   }else{
-    l=0.5;
+    l=0.8-y/1000;
   }
-  if(x<w/2 && y<h/2){
-    l=0.7;
-  }
-  hue = 300;
-  HSLAPixel pixel(hue, a, l);
+  hue = 300-x/3;
+  HSLAPixel pixel(hue, 1, a, l);
   return pixel;
 }
