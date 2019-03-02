@@ -170,7 +170,7 @@ void HuffmanTree::buildTree(const vector<Frequency>& frequencies)
      * Finally, when there is a single node left, it is the root. Assign it
      * to the root and you're done!
      */
-     std::cout<<"buildTree fin"<<std::endl;
+     // std::cout<<"buildTree fin"<<std::endl;
 }
 
 string HuffmanTree::decodeFile(BinaryFileReader& bfile)
@@ -254,14 +254,14 @@ HuffmanTree::TreeNode* HuffmanTree::readTree(BinaryFileReader& bfile)
     return NULL;
   }
   if(bfile.getNextBit()){//read 1, leaf
-    std::cout<<"read leaf"<<std::endl;
+    // std::cout<<"read leaf"<<std::endl;
     Frequency *f = new Frequency(bfile.getNextByte(), 0);
     TreeNode *cur = new TreeNode(*f);
     delete f;
     return cur;
   }
   else{////read 0, internal
-    std::cout<<"read internal"<<std::endl;
+    // std::cout<<"read internal"<<std::endl;
     Frequency *f = new Frequency(0);
     TreeNode *cur = new TreeNode(*f);
     delete f;
