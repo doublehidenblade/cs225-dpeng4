@@ -2,6 +2,7 @@
 #include <iterator>
 #include <iostream>
 #include <vector>
+#include <ctime>
 
 #include "../cs225/HSLAPixel.h"
 #include "../cs225/PNG.h"
@@ -40,11 +41,34 @@ ImageTraversal::Iterator::Iterator(ImageTraversal *trav) {
   /** @todo [Part 1] */
 }
 
+// ImageTraversal::Iterator::~Iterator() {
+//   /** @todo [Part 1] */
+//   for(unsigned i=0; i<png_.width(); i++){
+//     if(record[i]!=NULL){
+//       delete record[i];
+//       record[i]=NULL;
+//     }
+//   }
+//   if(record!=NULL){
+//     delete record;
+//     record = NULL;
+//   }
+// }
+
 ImageTraversal::Iterator::Iterator(ImageTraversal *trav, PNG pic, Point start, double in_tolerance):trav_(trav), png_(pic), pt_(start), tolerance_(in_tolerance) {
   /** @todo [Part 1] */
   trav_->add(pt_);
-  record.push_back(pt_.x*1000+pt_.y);
   startpix = png_.getPixel(start.x, start.y);
+  record = new int * [png_.width()];
+  // std::cout<<"start record "<<std::endl;
+  for(unsigned i=0;i<png_.width();i++){
+    record[i] = new int [png_.height()];
+    for(unsigned j=0;j<png_.height();j++){
+      record[i][j] = 0;
+    }
+  }
+  // std::cout<<"finish record "<<startclock<<std::endl;
+  record[pt_.x][pt_.y]=1;
 }
 
 /**
@@ -60,39 +84,43 @@ ImageTraversal::Iterator & ImageTraversal::Iterator::operator++() {
   Point above(pt_.x, pt_.y-1);
   if(pt_.x+1<png_.width()){
     if(calculateDelta(png_.getPixel(right.x, right.y), startpix)<tolerance_){
-      if(std::find(record.begin(), record.end(), right.x*1000+right.y)==record.end()){
+      // std::cout<<"check right"<<std::endl;
+      if(record[right.x][right.y]==0){
+        // std::cout<<"push right "<<std::endl;
         trav_->add(right);
       }
     }
   }
   if(pt_.y+1<png_.height()){
     if(calculateDelta(png_.getPixel(below.x, below.y), startpix)<tolerance_){
-      if(std::find(record.begin(), record.end(), below.x*1000+below.y)==record.end()){
+      if(record[below.x][below.y]==0){
         trav_->add(below);
+        // std::cout<<"push below"<<std::endl;
       }
     }
   }
   if(pt_.x>0){
     if(calculateDelta(png_.getPixel(left.x, left.y), startpix)<tolerance_){
-      if(std::find(record.begin(), record.end(), left.x*1000+left.y)==record.end()){
+      if(record[left.x][left.y]==0){
         trav_->add(left);
+        // std::cout<<"push left"<<std::endl;
       }
     }
   }
   if(pt_.y>0){
     if(calculateDelta(png_.getPixel(above.x, above.y), startpix)<tolerance_){
-      if(std::find(record.begin(), record.end(), above.x*1000+above.y)==record.end()){
+      if(record[above.x][above.y]==0){
         trav_->add(above);
+        // std::cout<<"push above"<<std::endl;
       }
     }
   }
-
   while(!trav_->empty()){
     Point temp = trav_->pop();
-    if(std::find(record.begin(), record.end(), temp.x*1000+temp.y)==record.end()){
-      record.push_back(temp.x*1000+temp.y);
+    // std::cout<<"poped "<<temp.x<<","<<temp.y<<std::endl;
+    if(record[temp.x][temp.y]==0){
+      record[temp.x][temp.y]=1;
       pt_=temp;
-      // std::cout<<"poped "<<temp.x<<","<<temp.y<<std::endl;
       return *this;
     }
   }

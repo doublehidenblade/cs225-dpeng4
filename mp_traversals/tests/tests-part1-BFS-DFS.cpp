@@ -58,7 +58,7 @@ TEST_CASE("BFS maintains the BFS ordering", "[weight=0][part=1][part=1b]") {
   PNG png(40, 40);
   Point startPoint(20, 20);
   BFS bfs(png, startPoint, 0.2);
-
+  
   bfs.add( Point(2, 2) );
   bfs.add( Point(2, 3) );
   bfs.add( Point(2, 4) );

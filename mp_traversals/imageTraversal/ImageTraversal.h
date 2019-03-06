@@ -30,6 +30,7 @@ public:
   class Iterator : std::iterator<std::forward_iterator_tag, Point> {
   public:
     Iterator();
+    // ~Iterator();
     Iterator(ImageTraversal *trav);
     Iterator(ImageTraversal *trav, PNG pic, Point start, double in_tolerance);
     Iterator & operator++();
@@ -40,12 +41,13 @@ public:
     /** add member functions if neccesary*/
 
   private:
+    int ** record;
     ImageTraversal *trav_;
     PNG png_;
     Point pt_;
     double tolerance_;
     HSLAPixel startpix;
-    std::vector<int> record;
+    // std::vector<int> record;
     /** @todo [Part 1] */
     /** add private members here if neccesary*/
 

@@ -40,9 +40,9 @@ PNG getTestPNG() {
 }
 
 TEST_CASE("DFS iterator starts at the start point", "[weight=2][part=1]") {
+
   PNG png = getTestPNG();
   Point startPoint(1, 1);
-
   DFS dfs(png, startPoint, 0.2);
   REQUIRE( *(dfs.begin()) == startPoint );
 }
