@@ -43,6 +43,7 @@ TEST_CASE("test_find", "[weight=10][valgrind]") {
 
 TEST_CASE("test_insert_small", "[weight=5]") {
     AVLTree<int, int> tree;
+    std::cout<<"test_insert_small begin"<<std::endl;
     tree.insert(1,2);
     tree.insert(4,5);
     tree.insert(5,4);
@@ -54,6 +55,7 @@ TEST_CASE("test_insert_small", "[weight=5]") {
 }
 
 TEST_CASE("test_insert_find", "[weight=10]") {
+  std::cout<<"test_insert_find begin"<<std::endl;
     AVLTree<int, int> tree;
     vector<int> elems = {5, 1, 8, 0, 3, 2};
     for (auto e : elems) {
@@ -74,6 +76,7 @@ TEST_CASE("test_insert_find", "[weight=10]") {
 }
 
 TEST_CASE("test_insert_big", "[weight=10][valgrind]") {
+  std::cout<<"test_insert_big begin"<<std::endl;
     AVLTree<int, string> tree;
     vector<int> elems = {55, 45, 12, 34, 56, 46, 13, 35, 57, 47, 14, 36, 58, 48, 15, 37};
     for (auto e : elems) {
@@ -96,6 +99,7 @@ TEST_CASE("test_insert_big", "[weight=10][valgrind]") {
 }
 
 TEST_CASE("test_remove_small", "[weight=5]") {
+  std::cout<<"test_remove_small begin"<<std::endl;
     AVLTree<int, string> tree;
     vector<int> elems = {5, 1, 8, 0, 3, 2};
     for (auto e : elems) {
@@ -118,6 +122,7 @@ TEST_CASE("test_remove_small", "[weight=5]") {
 }
 
 TEST_CASE("test_remove_big", "[weight=10][valgrind]") {
+  std::cout<<"test_remove_big begin"<<std::endl;
     AVLTree<int, string> tree;
     vector<int> elems = {94, 87, 61, 96, 76, 92, 42, 78, 17, 11, 41, 95, 36, 26, 23, 93, 31, 3, 45, 18, 73, 24, 74, 1, 71, 82};
     for (auto e : elems) {

@@ -92,6 +92,7 @@ class AVLTree
      */
     V find(const K& key) const;
 
+    int balancefactor(Node*& subtree);//
     /**
      * Prints the function calls to a stream.
      * @param out The stream to print to (default is stdout)
@@ -187,6 +188,10 @@ class AVLTree
      * @param node The node to balance.
      */
     void rebalance(Node*& node);
+
+    int reheight(Node*& node);
+
+    Node*& iop(Node*& subtree, Node *&predecessor, int key);
 
     /**
      * @param node The node's height to check
