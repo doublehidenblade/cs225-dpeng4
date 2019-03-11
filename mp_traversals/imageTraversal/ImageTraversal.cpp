@@ -41,19 +41,14 @@ ImageTraversal::Iterator::Iterator(ImageTraversal *trav) {
   /** @todo [Part 1] */
 }
 
-// ImageTraversal::Iterator::~Iterator() {
-//   /** @todo [Part 1] */
-//   for(unsigned i=0; i<png_.width(); i++){
-//     if(record[i]!=NULL){
-//       delete record[i];
-//       record[i]=NULL;
-//     }
-//   }
-//   if(record!=NULL){
-//     delete record;
-//     record = NULL;
-//   }
-// }
+ImageTraversal::Iterator::~Iterator() {
+  /** @todo [Part 1] */
+  if(png_.width()==0 || png_.height()==0) return;
+  for(unsigned i=0; i<png_.width(); i++){
+    delete [] record[i];
+  }
+  delete [] record;
+}
 
 ImageTraversal::Iterator::Iterator(ImageTraversal *trav, PNG pic, Point start, double in_tolerance):trav_(trav), png_(pic), pt_(start), tolerance_(in_tolerance) {
   /** @todo [Part 1] */
