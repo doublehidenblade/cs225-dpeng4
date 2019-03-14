@@ -93,20 +93,21 @@ std::vector<int>* vec_gen(size_t n) {
 
 TEST_CASE("test_btree3_small", "[weight=5][valgrind][timeout=8000]") {
     std::vector<std::pair<int, int>> data = {
-        {1, 5},
-        {4, 7},
-        {5, 43},
-        {-43, 3},
+
+
+
+
+
+
+
+        {9, 4},{1, 5},{4, 7},{5, 43},{-43, 3},{99, 2},{23, 7},{3, 2},
         {99, 2},
-        {23, 7},
-        {3, 2},
-        {9, 4},
     };
-    BTree< int, int > b(3);
+    BTree< int, int > b(5);
     do_inserts(data, b);
     verify_finds(data, b);
     REQUIRE(0 == b.find(-999));
-    REQUIRE(b.is_valid(3));
+    REQUIRE(b.is_valid(5));
 }
 
 TEST_CASE("test_btree3_large_seq", "[weight=5][timeout=8000]") {

@@ -1,3 +1,4 @@
+#include <iostream>
 /**
  * @file btree.cpp
  * Implementation of a B-tree class which can be used as a generic dictionary
@@ -26,9 +27,14 @@ template <class K, class V>
 V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
 {
     /* TODO Finish this function */
-
+    // std::cout<<"findin"<<std::endl;
     size_t first_larger_idx = insertion_idx(subroot->elements, key);
-
+    // std::cout<<"idx: "<<first_larger_idx<<std::endl;
+    // std::cout<<"key: "<<subroot->elements[first_larger_idx].key<<std::endl;
+    if(subroot->elements[first_larger_idx].key==key){
+      return subroot->elements[first_larger_idx].value;}
+    if(subroot->children.empty()){return V();}
+    return find(subroot->children[first_larger_idx], key);
     /* If first_larger_idx is a valid index and the key there is the key we
      * are looking for, we are done. */
 
@@ -42,8 +48,6 @@ V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
      * a leaf and we didn't find the key in it, then we have failed to find it
      * anywhere in the tree and return the default V.
      */
-
-    return V();
 }
 
 /**
@@ -63,10 +67,12 @@ void BTree<K, V>::insert(const K& key, const V& value)
     /* Increase height by one by tossing up one element from the old
      * root node. */
     if (root->elements.size() >= order) {
+        // std::cout<<"exceeded order "<<order<<std::endl;
         BTreeNode* new_root = new BTreeNode(false, order);
         new_root->children.push_back(root);
         split_child(new_root, 0);
         root = new_root;
+        // std::cout<<"new root "<<root->elements[0].key<<std::endl;
     }
 }
 
@@ -80,6 +86,7 @@ void BTree<K, V>::insert(const K& key, const V& value)
 template <class K, class V>
 void BTree<K, V>::split_child(BTreeNode* parent, size_t child_idx)
 {
+  // std::cout<<"splitting"<<std::endl;
     /* Assume we are splitting the 3 6 8 child.
      * We want the following to happen.
      *     | 2 |
@@ -139,8 +146,27 @@ void BTree<K, V>::split_child(BTreeNode* parent, size_t child_idx)
     /* Iterator for the middle child. */
     auto mid_child_itr = child->children.begin() + mid_child_idx;
 
-
     /* TODO Your code goes here! */
+    parent->elements.insert(elem_itr, child->elements[mid_elem_idx]);
+    parent->children.insert(child_itr, new_right);
+
+    // std::cout<<"mid elem idx: "<<mid_elem_idx<<std::endl;
+    // std::cout<<"throwing up "<<child->elements[mid_elem_idx].key<<std::endl;
+    //push into new_right
+    for(unsigned i=mid_child_idx;i<child->children.size();i++){
+      new_right->children.push_back(child->children[i]);
+    }
+    for(unsigned i=mid_elem_idx+1;i<child->elements.size();i++){
+      new_right->elements.push_back(child->elements[i]);
+    }
+    //pop from new_left
+    while(new_left->elements.size() > mid_elem_idx){
+      new_left->elements.pop_back();
+      if(!new_left->children.empty()){
+        new_left->children.pop_back();}
+    }
+    // std::cout<<"new left "<<new_left->elements.size()<<std::endl;
+    // std::cout<<"new right "<<new_right->elements.size()<<std::endl;
 }
 
 /**
@@ -150,19 +176,18 @@ void BTree<K, V>::split_child(BTreeNode* parent, size_t child_idx)
  * Note: Original solution used std::lower_bound, but making the students
  * write an equivalent seemed more instructive.
  */
+
 template <class K, class V>
 void BTree<K, V>::insert(BTreeNode* subroot, const DataPair& pair)
 {
-    /* There are two cases to consider.
-     * If the subroot is a leaf node and the key doesn't exist subroot, we
-     * should simply insert the pair into subroot.
-     * Otherwise (subroot is not a leaf and the key doesn't exist in subroot)
-     * we need to figure out which child to insert into and call insert on it.
-     * After this call returns we need to check if the child became too large
-     * and thus needs to be split to maintain order.
-     */
-
-    size_t first_larger_idx = insertion_idx(subroot->elements, pair);
-
-    /* TODO Your code goes here! */
+  size_t first_larger_idx = insertion_idx(subroot->elements, pair);
+  if(subroot->elements[first_larger_idx]==pair && first_larger_idx<subroot->elements.size()){return;}
+  if(subroot->is_leaf){
+    subroot->elements.insert(subroot->elements.begin()+first_larger_idx, pair);
+    return;
+  }
+  insert(subroot->children[first_larger_idx], pair);
+  if (subroot->children[first_larger_idx]->elements.size() >= order) {
+    split_child(subroot, first_larger_idx);
+  }
 }
