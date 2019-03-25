@@ -23,11 +23,12 @@ namespace opts
 }
 
 int main(int argc, const char** argv) {
-    string inFile = "";
-    string tileDir = "/class/cs225/mp_mosaic_uiuc-ig/";
+    string inFile = "eye.png";
+    // string tileDir = "uiuc-ig/";
+    string tileDir = "movies/";
     string numTilesStr = "100";
     string pixelsPerTileStr = "50";
-    string outFile = "mosaic.png";
+    string outFile = "mymosaic.png";
 
     OptionsParser optsparse;
     optsparse.addArg(inFile);

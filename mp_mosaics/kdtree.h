@@ -151,7 +151,10 @@ class KDTree
      * @param newPoints The vector of points to build your KDTree off of.
      */
     KDTree(const vector<Point<Dim>>& newPoints);
-
+    KDTreeNode *recurse(const vector<Point<Dim>>& newPoints, unsigned d);
+    // Point<Dim> findNthsmallest(const vector<Point<Dim>> &newPoints, unsigned d);
+    Point<Dim> findNthsmallest(vector<Point<Dim>> copyPoints, unsigned first, unsigned last, unsigned n, unsigned d);
+    void getsub(vector<Point<Dim>> &sublistl, vector<Point<Dim>> &sublistr, const vector<Point<Dim>> &newPoints, Point<Dim> r, unsigned d);
 
     /**
      * Copy constructor for KDTree.
@@ -231,7 +234,7 @@ class KDTree
      * @return The closest point to a in the KDTree.
      */
     Point<Dim> findNearestNeighbor(const Point<Dim>& query) const;
-
+    Point<Dim> recursiveFind(const Point<Dim>& query, Point<Dim>& best, KDTreeNode *subroot, unsigned d) const;
     // functions used for grading:
 
     /**
