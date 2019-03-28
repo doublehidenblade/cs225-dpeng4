@@ -51,6 +51,7 @@ KDTree<Dim>::KDTree(const vector<Point<Dim>>& newPoints)
      // std::cout<<"=================Building tree==============="<<std::endl;
      if(newPoints.size()==0){
        // std::cout<<"empty newPoints"<<std::endl;
+       root = NULL;
        return;}
      root = recurse(newPoints, 0);
      // std::cout<<"*****************Tree built******************"<<std::endl;
@@ -66,13 +67,14 @@ typename KDTree<Dim>::KDTreeNode * KDTree<Dim>::recurse(const vector<Point<Dim>>
      if(newPoints.size()==0){
        return NULL;}
   unsigned m = newPoints.size()>0 ? (newPoints.size() - 1)/2 : 0;
-
-    // std::cout<<"printing newPoints: "<<std::endl;
-    // for(unsigned i=0;i<newPoints.size();i++){
-    //   newPoints[i].print();
-    // }
-    // std::cout<<"current dim: "<<d<<std::endl;
-    // std::cout<<"looking for "<<m<<"th smallest."<<std::endl;
+  /*
+    std::cout<<"printing newPoints: "<<std::endl;
+    for(unsigned i=0;i<newPoints.size();i++){
+      newPoints[i].print();
+    }
+    std::cout<<"current dim: "<<d<<std::endl;
+    std::cout<<"looking for "<<m<<"th smallest."<<std::endl;
+    */
 
   Point<Dim> r = findNthsmallest(newPoints, 0, newPoints.size()-1, m, d);
 
@@ -128,7 +130,7 @@ KDTree<Dim>::KDTree(const KDTree<Dim>& other) {
   /**
    * @todo Implement this function!
    */
-   std::cout<<__LINE__<<std::endl;
+   // std::cout<<__LINE__<<std::endl;
    root = copy(other.root);
 }
 
@@ -137,7 +139,7 @@ const KDTree<Dim>& KDTree<Dim>::operator=(const KDTree<Dim>& rhs) {
   /**
    * @todo Implement this function!
    */
-   std::cout<<__LINE__<<std::endl;
+   // std::cout<<__LINE__<<std::endl;
   root = copy(rhs.root);
   return *this;
 }
