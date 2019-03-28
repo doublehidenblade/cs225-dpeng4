@@ -37,7 +37,7 @@ class KDTree
     {
       Point<Dim> point;
       KDTreeNode *left, *right;
-
+      
       KDTreeNode() : point(), left(NULL), right(NULL) {}
       KDTreeNode(const Point<Dim> &point) : point(point), left(NULL), right(NULL) {}
     };
@@ -170,6 +170,7 @@ class KDTree
      * @return A reference for performing chained assignments.
      */
     KDTree const &operator=(const KDTree<Dim>& rhs);
+    KDTreeNode * copy(KDTreeNode * other);
 
     /**
      * Destructor for KDTree.

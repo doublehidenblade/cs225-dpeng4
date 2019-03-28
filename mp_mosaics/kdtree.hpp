@@ -37,9 +37,6 @@ bool KDTree<Dim>::shouldReplace(const Point<Dim>& target,
        potdis = potdis + abs(target[i]-potential[i])*abs(target[i]-potential[i]);
      }
      if(potdis == curdis){
-       // std::cout<<"tie breaking"<<std::endl;
-       // currentBest.print();
-       // potential.print();
        return potential<currentBest;
      }
      return (potdis) < (curdis);
@@ -131,7 +128,8 @@ KDTree<Dim>::KDTree(const KDTree<Dim>& other) {
   /**
    * @todo Implement this function!
    */
-
+   std::cout<<__LINE__<<std::endl;
+   root = copy(other.root);
 }
 
 template <int Dim>
@@ -139,8 +137,17 @@ const KDTree<Dim>& KDTree<Dim>::operator=(const KDTree<Dim>& rhs) {
   /**
    * @todo Implement this function!
    */
-
+   std::cout<<__LINE__<<std::endl;
+  root = copy(rhs.root);
   return *this;
+}
+
+template <int Dim>
+typename KDTree<Dim>::KDTreeNode * KDTree<Dim>::copy(KDTreeNode * other) {
+  KDTreeNode * subroot = new KDTreeNode(other->point);
+  subroot->left = copy(other->left);
+  subroot->right = copy(other->right);
+  return subroot;
 }
 
 template <int Dim>
@@ -148,7 +155,7 @@ KDTree<Dim>::~KDTree() {
   /**
    * @todo Implement this function!
    */
-   // destroy(root);
+   destroy(root);
 }
 
 template <int Dim>
