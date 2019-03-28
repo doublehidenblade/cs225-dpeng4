@@ -99,7 +99,7 @@ void LPHashTable<K, V>::remove(K const& key)
      * @todo: implement this function
      */
      if(findIndex(key)==-1){return;}
-     // delete table[findIndex(key)];
+     delete table[findIndex(key)];
      table[findIndex(key)]=NULL;
      should_probe[findIndex(key)]=false;
      elems--;
@@ -115,8 +115,10 @@ int LPHashTable<K, V>::findIndex(const K& key) const
      * Be careful in determining when the key is not in the table!
      */
      for (size_t i = 0; i < size; i++) {
-         if(table[i]!=NULL && table[i]->first==key){
-           return i;
+         if(table[i]!=NULL){
+            if(table[i]->first==key){
+              return i;
+            }
          }
      }
     return -1;

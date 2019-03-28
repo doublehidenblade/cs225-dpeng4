@@ -59,6 +59,7 @@ void SCHashTable<K, V>::insert(K const& key, V const& value)
      elems++;
      size_t slot = hashes::hash(key, size)%size;
      table[slot].push_front(*p);
+     delete p;
      if(size<elems/0.7){resizeTable();}
 }
 
