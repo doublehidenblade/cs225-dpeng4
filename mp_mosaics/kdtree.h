@@ -175,7 +175,7 @@ class KDTree
      * Destructor for KDTree.
      */
     ~KDTree();
-
+    void destroy(KDTreeNode * subroot);
     /**
      * Finds the closest point to the parameter point in the KDTree.
      *

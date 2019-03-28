@@ -148,6 +148,16 @@ KDTree<Dim>::~KDTree() {
   /**
    * @todo Implement this function!
    */
+   // destroy(root);
+}
+
+template <int Dim>
+void KDTree<Dim>::destroy(KDTreeNode * subroot) {
+  if(subroot==NULL){return;}
+  if(subroot->left){destroy(subroot->left);}
+  if(subroot->right){destroy(subroot->right);}
+  delete subroot;
+  subroot = NULL;
 }
 
 template <int Dim>
