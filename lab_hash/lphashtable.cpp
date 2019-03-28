@@ -80,8 +80,15 @@ void LPHashTable<K, V>::insert(K const& key, V const& value)
      * Also, don't forget to mark the cell for probing with should_probe!
      */
 
-    (void) key;   // prevent warnings... When you implement this function, remove this line.
-    (void) value; // prevent warnings... When you implement this function, remove this line.
+     std::pair<K, V> * p = new std::pair<K,V>(key, value);
+     size_t slot = hashes::hash(key, size)%size;
+     while(table[slot]!=NULL){
+       slot = (1 + slot)%size;
+     }
+     table[slot] = p;
+     elems++;
+     should_probe[slot] = true;
+     if(elems/size>0.7){resizeTable();}
 }
 
 template <class K, class V>
@@ -90,18 +97,26 @@ void LPHashTable<K, V>::remove(K const& key)
     /**
      * @todo: implement this function
      */
+     if(findIndex(key)==-1){return;}
+     // delete table[findIndex(key)];
+     table[findIndex(key)]=NULL;
+     should_probe[findIndex(key)]=false;
 }
 
 template <class K, class V>
 int LPHashTable<K, V>::findIndex(const K& key) const
 {
-    
+
     /**
      * @todo Implement this function
      *
      * Be careful in determining when the key is not in the table!
      */
-
+     for (size_t i = 0; i < size; i++) {
+         if(table[i]!=NULL && table[i]->first==key){
+           return i;
+         }
+     }
     return -1;
 }
 
