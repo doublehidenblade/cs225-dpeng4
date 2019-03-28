@@ -3,6 +3,7 @@
  * Implementation of the LPHashTable class.
  */
 #include "lphashtable.h"
+#include <iostream>
 
 template <class K, class V>
 LPHashTable<K, V>::LPHashTable(size_t tsize)
@@ -81,14 +82,14 @@ void LPHashTable<K, V>::insert(K const& key, V const& value)
      */
 
      std::pair<K, V> * p = new std::pair<K,V>(key, value);
+     elems++;
      size_t slot = hashes::hash(key, size)%size;
-     while(table[slot]!=NULL){
+     while(should_probe[slot]==true){
        slot = (1 + slot)%size;
      }
      table[slot] = p;
-     elems++;
      should_probe[slot] = true;
-     if(elems/size>0.7){resizeTable();}
+     if(size<elems/0.7){resizeTable();}
 }
 
 template <class K, class V>
@@ -101,6 +102,7 @@ void LPHashTable<K, V>::remove(K const& key)
      // delete table[findIndex(key)];
      table[findIndex(key)]=NULL;
      should_probe[findIndex(key)]=false;
+     elems--;
 }
 
 template <class K, class V>
@@ -174,4 +176,33 @@ void LPHashTable<K, V>::resizeTable()
      *
      * @hint Use findPrime()!
      */
+     size_t newSize = findPrime(size * 2);
+     std::pair<K, V>** temp = new std::pair<K, V>*[newSize];
+     delete[] should_probe;
+     should_probe = new bool[newSize];
+     for (size_t i = 0; i < newSize; i++) {
+         temp[i] = NULL;
+         should_probe[i] = false;
+     }
+
+     for (size_t slot = 0; slot < size; slot++) {
+         if (table[slot] != NULL) {
+             size_t h = hashes::hash(table[slot]->first, newSize);
+             size_t jump = 1;
+             size_t i = 0;
+             size_t idx = h;
+             while (temp[idx] != NULL)
+             {
+                 ++i;
+                 idx = (h + jump*i) % newSize;
+             }
+             temp[idx] = table[slot];
+             should_probe[idx] = true;
+         }
+     }
+
+     delete[] table;
+     // don't delete elements since we just moved their pointers around
+     table = temp;
+     size = newSize;
 }

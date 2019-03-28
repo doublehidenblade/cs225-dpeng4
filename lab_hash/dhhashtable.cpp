@@ -83,13 +83,14 @@ void DHHashTable<K, V>::insert(K const& key, V const& value)
      */
      std::pair<K, V> * p = new std::pair<K,V>(key, value);
      elems++;
-     if(elems/size>=0.7){resizeTable();}
      size_t slot = hashes::hash(key, size)%size;
-     while(table[slot]!=NULL){
+     while(should_probe[slot]==true){
        slot = (hashes::secondary_hash(key, size) + slot)%size;
      }
      table[slot] = p;
      should_probe[slot] = true;
+     if(size<elems/0.7){resizeTable();}
+
 
 
 }
@@ -101,9 +102,10 @@ void DHHashTable<K, V>::remove(K const& key)
      * @todo Implement this function
      */
      if(findIndex(key)==-1){return;}
-     // delete table[findIndex(key)];
+     delete table[findIndex(key)];//
      table[findIndex(key)]=NULL;
      should_probe[findIndex(key)]=false;
+     elems--;
 }
 
 template <class K, class V>

@@ -4,7 +4,8 @@
  */
 
 #include "schashtable.h"
- 
+#include <iostream>
+
 template <class K, class V>
 SCHashTable<K, V>::SCHashTable(size_t tsize)
 {
@@ -54,6 +55,11 @@ void SCHashTable<K, V>::insert(K const& key, V const& value)
      * @todo Implement this function.
      *
      */
+     std::pair<K, V> * p = new std::pair<K,V>(key, value);
+     elems++;
+     size_t slot = hashes::hash(key, size)%size;
+     table[slot].push_front(*p);
+     if(size<elems/0.7){resizeTable();}
 }
 
 template <class K, class V>
@@ -66,7 +72,15 @@ void SCHashTable<K, V>::remove(K const& key)
      * Please read the note in the lab spec about list iterators and the
      * erase() function on std::list!
      */
-    (void) key; // prevent warnings... When you implement this function, remove this line.
+     size_t slot = hashes::hash(key, size)%size;
+     auto it2 = table[slot].begin();
+     while(it2!=table[slot].end()){
+       if(it2->first == key){
+         table[slot].erase(it2);
+         elems--;
+       }
+       it2++;
+     }
 }
 
 template <class K, class V>
@@ -76,7 +90,14 @@ V SCHashTable<K, V>::find(K const& key) const
     /**
      * @todo: Implement this function.
      */
-
+    size_t slot = hashes::hash(key, size)%size;
+    auto it = table[slot].begin();
+    while(it!=table[slot].end()){
+      if(it->first == key){
+        return it->second;
+      }
+      it++;
+    }
     return V();
 }
 
@@ -134,4 +155,21 @@ void SCHashTable<K, V>::resizeTable()
      *
      * @hint Use findPrime()!
      */
+     size_t newSize = findPrime(size * 2);
+     std::list<std::pair<K, V>>* temp = new std::list<std::pair<K, V>>[newSize];
+     auto it3 = table[0].begin();
+     size_t newslot;
+     for (size_t slot = 0; slot < size; slot++) {
+       it3 = table[slot].begin();
+       while(!table[slot].empty() && it3!=table[slot].end()){
+         newslot = hashes::hash(it3->first, newSize);
+         temp[newslot].push_front(*it3);
+         it3++;
+       }
+     }
+
+     delete[] table;
+     // don't delete elements since we just moved their pointers around
+     table = temp;
+     size = newSize;
 }
