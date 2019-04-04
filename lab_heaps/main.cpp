@@ -105,7 +105,7 @@ void testPop(int count)
     for (int i = 0; i < (int)to_insert.size(); i++) {
         if (myHeap.empty()) {
             colored_out::output_bold("Incorrect: Heap should not be empty yet");
-            cout << endl;
+            // cout << endl;
             passed = false;
             break;
         }
@@ -171,6 +171,15 @@ void testConstructor(int count)
          << " After buildheap: " << colored_out::BORDER_CHAR << endl;
 
     heap<int> myHeap(myArray);
+    // vector<int> test;
+  	// myHeap.getElems(test);
+    // std::sort(myArray.begin(),myArray.end());
+    // myArray.insert(myArray.begin(),0);
+    // if(test==myArray){
+    //   cout<<"Constructor correct"<<endl;
+    // }else{
+    //   cout<<"Constructor wrong"<<endl;
+    // }
     cout << myHeap;
     cout << endl << endl;
 }
