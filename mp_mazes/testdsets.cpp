@@ -14,12 +14,15 @@ using std::endl;
 int main()
 {
     DisjointSets s;
-
     s.addelements(50);
     s.setunion(2, 3);
+    // std::cout<<"setting union 3,5"<<std::endl;
     s.setunion(3, 5);
+    // std::cout<<"setting union 5,7"<<std::endl;
     s.setunion(5, 7);
+    // std::cout<<"setting union 7,2"<<std::endl;
     s.setunion(7, 2);
+    // std::cout<<"setting union 4,6"<<std::endl;
     s.setunion(4, 6);
 
     cout << s.find(7) << endl;
@@ -33,7 +36,7 @@ int main()
     s.setunion(50, 3);
 
     cout << s.find(50) << endl;
-    cout << "Disjoint Sets test complete" << endl;
+    // cout << "Disjoint Sets test complete" << endl;
 
     return 0;
 }

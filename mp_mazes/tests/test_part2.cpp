@@ -1,5 +1,5 @@
 
-/**
+
 #include "../cs225/catch/catch.hpp"
 #include <iostream>
 #include <fstream>
@@ -182,7 +182,7 @@ TEST_CASE("testMakeMazeRandom", "[weight=10][part2]")
 {
 	SquareMaze maze1;
 	maze1.makeMaze(50, 50);
-	
+
 	SquareMaze maze2;
 	maze2.makeMaze(50, 50);
 	bool same = true;
@@ -249,8 +249,12 @@ TEST_CASE("testSolutionCorrectSquare", "[weight=10][part2]")
 	SquareMaze maze;
 	MazeReader soln = READ_SOLUTION_MAZE("testSolutionCorrectSquare",15, 15);
 	copyMaze(soln, &maze);
-	vector<int> solution = maze.solveMaze();
-
+	vector<int> solution = maze.solveMaze();//incorrect
+	//
+	cs225::PNG* solved = maze.drawMazeWithSolution();
+	solved->writeToFile("test-solved.png");//incorrect
+	delete solved;
+	//
 	int x = 0;
 	int y = 0;
 	for (size_t i = 0; i < solution.size(); i++)
@@ -351,5 +355,3 @@ TEST_CASE("testDrawSolutionLarge", "[weight=10][part2][timeout=30000]")
 	REQUIRE(*actualOutput == solnImage);
 	delete actualOutput;
 }
- */
-

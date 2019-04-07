@@ -80,6 +80,7 @@ TEST_CASE("size1", "[weight=5][part1]")
 
 TEST_CASE("size2", "[weight=10][part1]")
 {
+	std::cout<<"Testing"<<std::endl;
 	DisjointSets disjSets;
 	disjSets.addelements(8);
 
