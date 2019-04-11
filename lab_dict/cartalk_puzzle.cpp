@@ -7,8 +7,10 @@
  */
 
 #include <fstream>
+#include <iostream>
 
 #include "cartalk_puzzle.h"
+#include "pronounce_dict.h"
 
 using namespace std;
 
@@ -24,6 +26,22 @@ vector<std::tuple<std::string, std::string, std::string>> cartalk_puzzle(Pronoun
                                     const string& word_list_fname)
 {
     vector<std::tuple<std::string, std::string, std::string>> ret;
+    ifstream wordsFile(word_list_fname);
+      string word;
+      string ord;
+      string wrd;
+      if (wordsFile.is_open()) {
+          while (getline(wordsFile, word)) {
+              ord = word;
+              ord.erase(ord.begin());
+              wrd = word;
+              wrd.erase(wrd.begin()+1);
+              if(d.homophones(word, ord) && d.homophones(ord, wrd)){
+                tuple<string, string, string> cur(word, ord, wrd);
+                ret.push_back(cur);
+              }
+          }
+      }
 
     /* Your code goes here! */
     return ret;

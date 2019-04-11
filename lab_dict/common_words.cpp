@@ -48,12 +48,47 @@ void CommonWords::init_file_word_maps(const vector<string>& filenames)
         // file
         vector<string> words = file_to_vector(filenames[i]);
         /* Your code goes here! */
+        map<string, unsigned int> memo;
+        // a memo each file
+        for(unsigned j=0;j<words.size();j++){
+          map<string, unsigned int>::iterator lookup = memo.find(words[j]);
+          if (lookup == memo.end()) {
+              memo[words[j]] = 1;
+          }else{
+            memo[words[j]]++;
+          }
+        }
+        file_word_maps[i] = memo;
     }
+    // for(unsigned i=0;i<file_word_maps.size();i++){
+    //   //for every file:
+    //   std::cout<<"file "<<i<<std::endl;
+    //   for(map<string, unsigned int>::iterator fileit = file_word_maps[i].begin();fileit!=file_word_maps[i].end();fileit++){
+    //     //for every hashed word
+    //     std::cout<<fileit->first<<"=>"<<fileit->second;
+    //   }
+    //   std::cout<<std::endl;
+    // }
 }
 
 void CommonWords::init_common()
 {
     /* Your code goes here! */
+    for(unsigned i=0;i<file_word_maps.size();i++){
+      //for every file:
+      for(map<string, unsigned int>::iterator fileit = file_word_maps[i].begin();fileit!=file_word_maps[i].end();fileit++){
+        //for every hashed word
+        map<string, unsigned int>::iterator comit = common.find(fileit->first);
+        if(comit==common.end()){
+          common[fileit->first] = 1;
+        }else{
+          common[fileit->first]++;
+        }
+      }
+    }
+    // for (map<string, unsigned int>::iterator comit=common.begin(); comit!=common.end(); ++comit){
+    //   std::cout<<comit->first<<"=>"<<comit->second<<std::endl;
+    // }
 }
 
 /**
@@ -64,7 +99,23 @@ void CommonWords::init_common()
 vector<string> CommonWords::get_common_words(unsigned int n) const
 {
     vector<string> out;
+    bool valid;
     /* Your code goes here! */
+      for (map<string, unsigned int>::const_iterator comit=common.begin(); comit!=common.end(); ++comit){
+        //for every word in common
+        // if(comit->second != file_word_maps.size()){continue;}
+        valid = true;
+        for(unsigned i=0;i<file_word_maps.size();i++){
+          //check every file
+          map<string, unsigned int>::const_iterator fileit = file_word_maps[i].find(comit->first);
+          if(fileit == file_word_maps[i].end() || fileit->second < n){
+            valid = false;
+          }
+        }
+        if(valid){
+          out.push_back(comit->first);
+        }
+      }
     return out;
 }
 

@@ -10,6 +10,7 @@
 
 #include <algorithm> /* I wonder why this is included... */
 #include <fstream>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -23,6 +24,23 @@ using std::ifstream;
 AnagramDict::AnagramDict(const string& filename)
 {
     /* Your code goes here! */
+    ifstream wordsFile(filename);
+    string word;
+    string key;
+    vector<string> vec;
+    if (wordsFile.is_open()) {
+      while (getline(wordsFile, word)) {
+        //std::cout<<word<<std::endl;
+        key = word;
+        std::sort(key.begin(), key.end());
+        std::map<string, vector<string>>::iterator it = dict.find(key);
+        if(it==dict.end()){
+          dict[key] = vec;
+        }
+        dict[key].push_back(word);
+      }
+    }
+
 }
 
 /**
@@ -32,6 +50,18 @@ AnagramDict::AnagramDict(const string& filename)
 AnagramDict::AnagramDict(const vector<string>& words)
 {
     /* Your code goes here! */
+    string key;
+    vector<string> vec;
+    for(unsigned i=0;i<words.size();i++){
+      // std::cout<<words[i]<<std::endl;
+      key = words[i];
+      std::sort(key.begin(), key.end());
+      std::map<string, vector<string>>::iterator it = dict.find(key);
+      if(it==dict.end()){
+        dict[key] = vec;
+      }
+      dict[key].push_back(words[i]);
+    }
 }
 
 /**
@@ -43,7 +73,9 @@ AnagramDict::AnagramDict(const vector<string>& words)
 vector<string> AnagramDict::get_anagrams(const string& word) const
 {
     /* Your code goes here! */
-    return vector<string>();
+    string key = word;
+    std::sort(key.begin(), key.end());
+    return dict.find(key)->second;
 }
 
 /**
@@ -55,5 +87,12 @@ vector<string> AnagramDict::get_anagrams(const string& word) const
 vector<vector<string>> AnagramDict::get_all_anagrams() const
 {
     /* Your code goes here! */
-    return vector<vector<string>>();
+    vector<vector<string>> ret;
+    for(std::map<string, vector<string>>::const_iterator it = dict.begin();it!=dict.end();it++){
+      vector<string> vec = it->second;
+      if(vec.size()>=2){
+        ret.push_back(vec);
+      }
+    }
+    return ret;
 }
