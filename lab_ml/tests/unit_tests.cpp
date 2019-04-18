@@ -16,7 +16,7 @@ TEST_CASE("NimLearner(10) constructor creates a starting vertex \"p1-10\"", "[we
 
 
 TEST_CASE("NimLearner(3) constructor creates the correct vertices", "[weight=1][part=1]") {
-  NimLearner nim(3);
+  NimLearner nim(10);
 
   const Graph & g = nim.getGraph();
 
@@ -32,7 +32,7 @@ TEST_CASE("NimLearner(3) constructor creates the correct vertices", "[weight=1][
 
 
 TEST_CASE("NimLearner(3) constructor creates the correct edges", "[weight=1][part=1]") {
-  NimLearner nim(3);
+  NimLearner nim(10);
 
   const Graph & g = nim.getGraph();
 
@@ -57,7 +57,7 @@ TEST_CASE("NimLearner(3) constructor creates the correct edges", "[weight=1][par
   if (g.vertexExists("p1-2")) {
     REQUIRE(g.edgeExists("p1-2", "p2-1"));
     REQUIRE(g.edgeExists("p1-2", "p2-0"));
-  }  
+  }
 }
 
 
@@ -165,4 +165,3 @@ TEST_CASE("NimLearner(4) has ending edge weights summing to the random games pla
            g.getEdgeWeight( p2_2, p1_0 ) +
            g.getEdgeWeight( p2_1, p1_0 ) == 10000 );
 }
-

@@ -345,17 +345,10 @@ size_t insertion_idx(const std::vector<T>& elements, const C& val)
     if(elements.empty()){return 0;}
     if(val<elements[0]){return 0;}
     if(val>elements.back()){return elements.size();}
-    // for(unsigned i=0;i<elements.size();i++){
-    //   if(elements[i]>val || elements[i]==val){
-    //     // std::cout<<"got idx "<<i<<std::endl;
-    //     return i;
-    //   }
-    // }
     unsigned l = 0;
     unsigned r = elements.size()-1;
     while(l<r){
       unsigned mid = l + (r-l)/2;
-      // std::cout<<mid<<std::endl;
       if(elements[mid]==val){return mid;}
       if(elements[mid]<val){l = mid+1;}else{r = mid-1;}
     }

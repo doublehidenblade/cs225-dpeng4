@@ -26,11 +26,7 @@ V BTree<K, V>::find(const K& key) const
 template <class K, class V>
 V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
 {
-    /* TODO Finish this function */
-    // std::cout<<"findin"<<std::endl;
     size_t first_larger_idx = insertion_idx(subroot->elements, key);
-    // std::cout<<"idx: "<<first_larger_idx<<std::endl;
-    // std::cout<<"key: "<<subroot->elements[first_larger_idx].key<<std::endl;
     if(subroot->elements[first_larger_idx].key==key){
       return subroot->elements[first_larger_idx].value;}
     if(subroot->children.empty()){return V();}
