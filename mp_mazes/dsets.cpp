@@ -38,14 +38,6 @@ void DisjointSets::setunion (int a, int b){
     elems[rootA] -= size(b);
     elems[rootB] = rootA;
   }
-  // for(unsigned i=0;i<elems.size();i++){
-  //   if(i%5==4){
-  //     std::cout<<elems[i]<<"; ";
-  //   }else{
-  //   std::cout<<elems[i]<<",";
-  //   }
-  // }
-  // std::cout<<std::endl;
 }
 
 

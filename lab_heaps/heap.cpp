@@ -59,8 +59,6 @@ void heap<T, Compare>::heapifyDown(size_t currentIdx)
 {
     // @TODO Implement the heapifyDown algorithm.
     if (!hasAChild(currentIdx)){return;}
-    size_t leftChildIdx = leftChild(currentIdx);
-    size_t rightChildIdx = rightChild(currentIdx);
     size_t minChildIdx = maxPriorityChild(currentIdx);
     if (higherPriority(_elems[minChildIdx], _elems[currentIdx])) {
         std::swap(_elems[currentIdx], _elems[minChildIdx]);
