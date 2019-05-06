@@ -1,0 +1,3 @@
+"Node.cpp":
+	debugger: "dbg-gdb"
+	path: "Node.cpp"
